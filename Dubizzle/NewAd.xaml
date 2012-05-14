@@ -1,0 +1,123 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Dubizzle"
+    xmlns:Microsoft_Phone_Controls_Maps="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps" 
+    x:Class="Dubizzle.NewAd"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="False" shell:SystemTray.BackgroundColor="Transparent">
+	<phone:PhoneApplicationPage.Resources>
+		<Style x:Key="ButtonStyle1" TargetType="Button">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Grid>
+							<Image Source="camera.png"/>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ButtonStyle2" TargetType="Button">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Grid>
+							<Image Source="folder.png"/>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</phone:PhoneApplicationPage.Resources>
+
+	<phone:PhoneApplicationPage.FontFamily>
+		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+	</phone:PhoneApplicationPage.FontFamily>
+	<phone:PhoneApplicationPage.FontSize>
+		<StaticResource ResourceKey="PhoneFontSizeNormal"/>
+	</phone:PhoneApplicationPage.FontSize>
+	<phone:PhoneApplicationPage.Foreground>
+		<StaticResource ResourceKey="PhoneForegroundBrush"/>
+	</phone:PhoneApplicationPage.Foreground>
+ 
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Minimized">
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Change Category" Click="ApplicationBarMenuItem_Click"/>
+            </shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton IconUri="/icons/appbar.upload.rest.png" Text="Upload" Click="ApplicationBarIconButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/ApplicationBar.Cancel.png" Text="Cancel" Click="ApplicationBarIconButton_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot">
+    	<Grid.Background>
+    		<ImageBrush Stretch="Fill" ImageSource="/SplashScreenImage.jpg"/>
+    	</Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        	<TextBlock x:Name="PageTitle" Text="place you ad" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#FFE21A1A"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        	<ScrollViewer VerticalAlignment="Top">
+        		<StackPanel Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="456">
+        			<local:EDAdvancedTextbox x:Name="EDATextBox_Title" Margin="0,0,8,0" TextWrapping="Wrap" Text="" DefaultText="Title for your ad" Foreground="#CC474446"/>
+        			<StackPanel Orientation="Horizontal" Margin="0,0,8,0">
+        				<local:EDAdvancedTextbox x:Name="EDATextBox_Price" TextWrapping="Wrap" Text="" DefaultText="Price" Foreground="#CC474446" Width="262" InputScope="Number"/>
+        				<TextBlock TextWrapping="Wrap" Text="AED" Foreground="#CC474446" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        			</StackPanel>
+        			<local:EDAdvancedTextbox x:Name="EDATextBox_PhoneNumber" Margin="0,0,8,0" TextWrapping="Wrap" Text="" DefaultText="Phone Number" Foreground="#CC474446" InputScope="Number"/>
+        			<local:EDAdvancedTextbox x:Name="EDATextBox_Description" Margin="0,0,8,0" TextWrapping="Wrap" DefaultText="Enter description here..." Foreground="#CC474446" Height="136" FontSize="21.333"/>
+        			<StackPanel Orientation="Horizontal">
+        				<Border BorderThickness="2" BorderBrush="#FFD07BB6">
+        					<Grid Height="200" Width="200" d:IsHidden="True">
+        						<Grid.Background>
+        							<ImageBrush Stretch="Fill"/>
+        						</Grid.Background>
+							
+        						<Image x:Name="Image_ToBeUploaded"/>
+							
+        					</Grid>
+        				</Border>
+        				<StackPanel>
+        					<StackPanel Orientation="Horizontal" d:LayoutOverrides="Height" HorizontalAlignment="Center">
+        						<Button x:Name="Button_LaunchCameraTask" Content="Button" Height="68" Margin="10" Style="{StaticResource ButtonStyle1}" Width="68" Click="Button_LaunchCameraTask_Click"/>
+        						<Button x:Name="Button_LaunchPhotosTask" Content="Button" Height="68" Margin="10" Style="{StaticResource ButtonStyle2}" Width="68" Click="Button_LaunchPhotosTask_Click"/>
+        					</StackPanel>
+        					<TextBlock TextWrapping="Wrap" Foreground="#FFD07BB6" Width="239" Text="Remember advertisements with photos have better views" d:LayoutOverrides="Height" Margin="10,0"/>
+        				</StackPanel>
+        			</StackPanel>
+        			<StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+        				<StackPanel Orientation="Vertical" Width="200">
+        					<TextBlock TextWrapping="Wrap" Foreground="#FFD07BB6" Text="Click on the Map to change your location"/>
+        					<CheckBox Content="Use GPS" Foreground="Black" FontSize="18.667" Margin="0,0,0,0" d:LayoutOverrides="Width" Checked="CheckBox_Checked" IsChecked="True"/>
+        				</StackPanel>
+        				<Microsoft_Phone_Controls_Maps:Map x:Name="Map_SaleLocation" CredentialsProvider="AgYsF_6EicI1Cot_qW3NfyPOLDFYTwTDAHoxPV4mS2b_rpZ9-yzFlVYfMWynUFsX" Tap="Map_Tap" IsHitTestVisible="False" />
+
+        			</StackPanel>
+
+        		</StackPanel>
+        	</ScrollViewer>
+        </Grid>
+        <local:MultiLevelAnimatingListBox x:Name="CategoryChooser" HorizontalAlignment="Left" Width="100" Margin="0,0,0,34" d:IsHidden="True"/>
+    </Grid>
+
+</phone:PhoneApplicationPage>
