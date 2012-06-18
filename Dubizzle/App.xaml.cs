@@ -14,6 +14,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Device.Location;
 using System.IO.IsolatedStorage;
+using System.Collections.ObjectModel;
 
 namespace Dubizzle
 {
@@ -32,22 +33,29 @@ namespace Dubizzle
                     return new List<Item>();
                 }
             } 
-            set { IsolatedStorageSettings.ApplicationSettings["MyItems"] = value; } }
+            set 
+            { 
+                IsolatedStorageSettings.ApplicationSettings["MyItems"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            } 
+        }
 
-        public List<Item> Favorites
+        public ObservableCollection<ResultMenuItem> Favorites
         {
             get
             {
-                try
-                {
-                    return IsolatedStorageSettings.ApplicationSettings["MyItems"] as List<Item>;
-                }
-                catch (KeyNotFoundException e)
-                {
-                    return new List<Item>();
-                }
+                ObservableCollection<ResultMenuItem> x;
+                if(!IsolatedStorageSettings.ApplicationSettings.TryGetValue("favorites" ,out x) )
+                    x = new ObservableCollection<ResultMenuItem>();
+                return x;
             }
-            set { IsolatedStorageSettings.ApplicationSettings["MyItems"] = value; }
+
+            set 
+            {
+                IsolatedStorageSettings.ApplicationSettings["favorites"] = value;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+
+            }
         }
 
         //public GeoCoordinateWatcher Watcher { get; set; }

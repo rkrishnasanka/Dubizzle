@@ -15,6 +15,7 @@ using System.IO;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
+using Microsoft.Phone.Tasks;
 
 namespace Dubizzle
 {
@@ -134,6 +135,23 @@ namespace Dubizzle
             {
                 prog.IsVisible = false;
             });
+        }
+
+        private void ListBox_Details_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ListBox_Details.SelectedItem != null)
+            {
+                KeyValuePair<string, string> something = (KeyValuePair<string, string>)ListBox_Details.SelectedItem;
+                switch (something.Key)
+                {
+                    case "Phone:": new PhoneCallTask { DisplayName = "Random Owner", PhoneNumber = something.Value }.Show();
+                        break;
+                    case "Short Link:": new WebBrowserTask { Uri = new Uri(something.Value) }.Show();
+                        break;
+                }
+                ListBox_Details.SelectedItem = null;
+
+            }
         }
 
     }

@@ -12,27 +12,33 @@ using System.Windows.Shapes;
 namespace Dubizzle
 {
     public class EDAdvancedTextbox : TextBox 
-    { 
-        private string _defaultText = string.Empty; 
-        public string DefaultText { get { return _defaultText; } set { _defaultText = value; SetDefaultText(); } } 
-        public EDAdvancedTextbox() 
-        { 
-            this.GotFocus += (sender, e) => { 
-                if (this.Text.Equals(DefaultText)) 
-                { 
-                    this.Text = string.Empty; 
-                } 
-            }; 
-            this.LostFocus += (sender, e) => { SetDefaultText(); }; 
-        } 
-        
-        private void SetDefaultText() 
-        {
-            if (this.Text.Trim().Length == 0)
-            {
-                this.Text = DefaultText;
-                //this.Foreground = new SolidColorBrush
-            }
-        } 
-    }
+    {
+            private string _defaultText = string.Empty; 
+            public string DefaultText 
+            { 
+                get { return _defaultText; } 
+                set { _defaultText = value; SetDefaultText(); 
+            } 
+
+            } 
+            public EDAdvancedTextbox() 
+            { 
+                this.GotFocus += (sender, e) => { 
+                    if (this.Text.Equals(DefaultText)) 
+                    { this.Text = string.Empty; } 
+                }; 
+
+                this.LostFocus += (sender, e) => { 
+                    SetDefaultText(); 
+                };
+
+            } 
+            
+            private void SetDefaultText() 
+            { 
+                if (this.Text.Trim().Length == 0)
+                    this.Text = DefaultText;
+            } 
+        }
+    
 }

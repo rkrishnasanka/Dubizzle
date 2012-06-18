@@ -32,8 +32,8 @@
         		</controls:Pivot.Foreground>
         		<controls:PivotItem Header="Details">
         			<Grid>
-        				<ScrollViewer Margin="0,0,0,8">
-                            <StackPanel Height="634" Width="432" Background="#CC000000">
+        				<ScrollViewer Margin="0,0,0,8" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel Width="432" Background="#CC000000">
                                 <Grid Background="Red">
         						    <TextBlock x:Name="TextBlock_Title" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="26" Text="{Binding Title}" Foreground="White" Margin="13"/>
                                 </Grid>
@@ -41,7 +41,7 @@
                                     <Image Source="{Binding ImageUrls[0]}" MaxHeight="200" Stretch="UniformToFill"/>
                                 </Grid>
 
-                                <ListBox x:Name="ListBox_Details" ItemsSource="{Binding Details}" Height="auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+                                <ListBox x:Name="ListBox_Details" ItemsSource="{Binding Details}" Height="auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="ListBox_Details_SelectionChanged" >
         							<ListBox.Foreground>
         								<SolidColorBrush Color="White"/>
         							</ListBox.Foreground>
@@ -60,7 +60,7 @@
         		</controls:PivotItem>
         		<controls:PivotItem Header="Map">
                     <Grid>
-                        <my:Map Width="432" Height="570" x:Name="Map_CustomerLocation" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" CredentialsProvider="AgYsF_6EicI1Cot_qW3NfyPOLDFYTwTDAHoxPV4mS2b_rpZ9-yzFlVYfMWynUFsX" ZoomLevel="24" IsHitTestVisible="False" >
+                        <my:Map Width="432" Height="570" x:Name="Map_CustomerLocation" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" CredentialsProvider="Av3Z5IUHc7RMtwCQtJJfmFTWSVApjPRk8xCBdaIESokLmQH8o2tb6zteV_hi4voQ" ZoomLevel="24" IsHitTestVisible="False" >
                             <my:Pushpin x:Name="p" Background="Black"  />                              
                         </my:Map>
                         <Grid VerticalAlignment="Bottom" Background="#CC000000">

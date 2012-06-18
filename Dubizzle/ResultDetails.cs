@@ -12,16 +12,36 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps.Platform;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Dubizzle
 {
+    [DataContract]
+    public class MenuItem
+    {
+        [DataMember]
+        public string Anchorlink { get; set; }
+        
+        [DataMember]
+        public string Title { get; set; }
+    }
+
+
+    [DataContract]
     public class ResultMenuItem : MenuItem
     {
+        [DataMember]
         public string Imgurl { get; set; }
+        
+        [DataMember]
         public string Price { get; set; }
+        
+        [DataMember]
         public string Date { get; set; }
     }
 
+    [DataContract]
     public class ResultDetails : INotifyPropertyChanged , INotifyPropertyChanging
     {
         /// <summary>
@@ -31,8 +51,11 @@ namespace Dubizzle
         {
             this._custLocation = new Location();
         }
+
+        
         private string _locationText;
 
+        [DataMember]
         public string LocationText
         {
             get { return _locationText; }
@@ -44,6 +67,7 @@ namespace Dubizzle
             }
         }
 
+        [DataMember]
         public string Price
         {
             get
@@ -59,6 +83,8 @@ namespace Dubizzle
             }
         }
         private string _link;
+
+        [DataMember]
         public string Link 
         {
             get
@@ -75,6 +101,8 @@ namespace Dubizzle
         }
 
         private string _title;
+
+        [DataMember]
         public string Title 
         {
             get
@@ -90,6 +118,8 @@ namespace Dubizzle
         }
 
         private Dictionary<string, string> _details; 
+
+        [DataMember]
         public Dictionary<string, string> Details 
         {
             get
@@ -105,6 +135,7 @@ namespace Dubizzle
 
         }
 
+        [DataMember]
         public ObservableCollection<string> ImageUrls { get; set; }
         //private List<string> _imageUrls;
         //public List<string> ImageUrls {
@@ -121,6 +152,8 @@ namespace Dubizzle
         //}
 
         private string _actionEmail;
+
+        [DataMember]
         public string ActionEmail
         {
             get
@@ -136,6 +169,8 @@ namespace Dubizzle
         }
 
         private string _actionPhoneno;
+
+        [DataMember]
         public string ActionPhoneno
         {
             get
@@ -151,6 +186,8 @@ namespace Dubizzle
         }
 
         private string _description;
+
+        [DataMember]
         public string Description
         {
             get
@@ -166,6 +203,8 @@ namespace Dubizzle
         }
 
         private double _latitude;
+
+        [DataMember]
         public double Latitude
         {
             get
@@ -181,6 +220,8 @@ namespace Dubizzle
         }
 
         private double _longitude;
+
+        [DataMember]
         public double Longitude
         {
             get
@@ -197,6 +238,7 @@ namespace Dubizzle
 
         private Location _custLocation;
 
+        [DataMember]
         public Location CustLocation
         {
             get { return _custLocation; }

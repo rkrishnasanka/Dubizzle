@@ -11,7 +11,7 @@
     xmlns:ec="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions" 
     xmlns:Microsoft_Phone_Controls_Maps="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps" 
     x:Class="Dubizzle.MainPage"
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="False"  Loaded="PhoneApplicationPage_Loaded">
 	<phone:PhoneApplicationPage.Resources>
@@ -156,16 +156,16 @@
 	</phone:PhoneApplicationPage.Resources>
  
     <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Minimized">
+            <shell:ApplicationBarIconButton IconUri="/icons/appbar.feature.search.rest.png" Text="Search" Click="ApplicationBarIconButton_Click"/>
+            <!--<shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>-->
+            <!--<shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
                 <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
+            </shell:ApplicationBar.MenuItems>-->
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 	<phone:PhoneApplicationPage.FontFamily>
 		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
@@ -191,10 +191,10 @@
         	<Grid.Background>
         		<ImageBrush Stretch="Fill" ImageSource="/SplashScreenImage.jpg"/>
         	</Grid.Background>
-        	<controls:Panorama Title="panorama" TitleTemplate="{StaticResource PanoramaTitlTemplate}" toolkit:TiltEffect.IsTiltEnabled="True">
+        	<controls:Panorama Title="panorama" TitleTemplate="{StaticResource PanoramaTitlTemplate}">
         		<controls:PanoramaItem Header="" Style="{StaticResource PanoramaItemHeaderStyle}">
-        			<ScrollViewer VerticalAlignment="Top">
-        				<Grid toolkit:TiltEffect.IsTiltEnabled="True" Width="396">
+        			<ScrollViewer VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        				<Grid  Width="396" Margin="0">
         					<Grid.ColumnDefinitions>
         						<ColumnDefinition Width=".5*" />
         						<ColumnDefinition Width=".5*" />  				
@@ -206,8 +206,12 @@
 								<RowDefinition />
 								<RowDefinition />
         					</Grid.RowDefinitions>
-        					<toolkit:HubTile HorizontalAlignment="Center" VerticalAlignment="Center" d:LayoutOverrides="Width, Height" Tap="HubTile_Tap" Background="#FFE21A1A"/>
-        					<StackPanel Grid.Column="1"  Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0">
+							<Image Grid.Row="0" Grid.Column="0" Source="Dudes/Untitled-3.png" Stretch="None"/>
+        					<Image Grid.Row="1" Grid.Column="1" Source="Dudes/Untitled-4.png" Stretch="None" />
+							<Image Grid.Row="2" Grid.Column="0" Source="Dudes/Untitled-5.png" Stretch="None" Margin="0,0,10,0"/>
+							<Image Grid.Row="3" Grid.Column="1" Source="Dudes/Untitled-6.png" Stretch="None"/>
+							<Image Grid.Row="4" Grid.Column="0" Source="Dudes/Untitled-7.png" Stretch="None" Height="100" />
+							<StackPanel Grid.Column="1"  Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" Tap="HubTile_Tap" toolkit:TiltEffect.IsTiltEnabled="True">
         						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Classifieds" VerticalAlignment="Top">
         							<TextBlock.Foreground>
         								<SolidColorBrush Color="{StaticResource ZunePink}"/>
@@ -215,51 +219,47 @@
         						</TextBlock>
         						<TextBlock TextWrapping="Wrap" Text="If its on sale then its on Dubizzle - browse through the 1000's of items on sale." Foreground="Black"/>
         					</StackPanel>
-        					<toolkit:HubTile Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Background="#FFE21A1A" />
-        					<StackPanel Margin="0" Orientation="Vertical" Grid.Row="1" d:LayoutOverrides="Height" HorizontalAlignment="Left" VerticalAlignment="Center">
+        					<StackPanel Margin="0" Orientation="Vertical" Grid.Row="1" d:LayoutOverrides="Height" HorizontalAlignment="Left" VerticalAlignment="Center" toolkit:TiltEffect.IsTiltEnabled="True" Tap="Hubtile_property_sale_Tap">
         						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Property" VerticalAlignment="Center"  >
         							<TextBlock.Foreground>
         								<SolidColorBrush Color="{StaticResource ZunePink}"/>
         							</TextBlock.Foreground>
         						</TextBlock>
-        						<TextBlock TextWrapping="Wrap" Text="Grab the Hottest properties before anyone else, (phones everywhere :P) " Foreground="Black"/>
+        						<TextBlock TextWrapping="Wrap" Text="Grab the Hottest properties on sale before anyone else." Foreground="Black"/>
         					</StackPanel>
-        					<toolkit:HubTile Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Background="#FFE21A1A"/>
-        					<StackPanel Grid.Column="1"  Orientation="Vertical" Grid.Row="2" d:LayoutOverrides="Height" VerticalAlignment="Center">
+        					<StackPanel Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True" Orientation="Vertical" Grid.Row="2" d:LayoutOverrides="Height" VerticalAlignment="Center" Tap="HubTile_jobs_Tap">
         						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Jobs" VerticalAlignment="Center">
         							<TextBlock.Foreground>
         								<SolidColorBrush Color="{StaticResource ZunePink}"/>
         							</TextBlock.Foreground>
         						</TextBlock>
-        						<TextBlock TextWrapping="Wrap" Text="Kick recession in the ass." Foreground="Black"/>
+        						<TextBlock TextWrapping="Wrap" Text="Kick recession !" Foreground="Black"/>
         					</StackPanel>
-							<toolkit:HubTile Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Background="#FFE21A1A"/>
-        					<StackPanel Grid.Column="0"  Orientation="Vertical" Grid.Row="3" d:LayoutOverrides="Height" VerticalAlignment="Center">
-        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Jobs" VerticalAlignment="Center">
+        					<StackPanel Grid.Column="0" toolkit:TiltEffect.IsTiltEnabled="True"  Orientation="Vertical" Grid.Row="3" d:LayoutOverrides="Height" VerticalAlignment="Center" Tap="HubTile_jobs_wanted_Tap">
+        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Jobs Wanted" VerticalAlignment="Center">
         							<TextBlock.Foreground>
         								<SolidColorBrush Color="{StaticResource ZunePink}"/>
         							</TextBlock.Foreground>
         						</TextBlock>
-        						<TextBlock TextWrapping="Wrap" Text="Kick recession in the ass." Foreground="Black"/>
+        						<TextBlock TextWrapping="Wrap" Text="Post your profile for hundreds of employers to find." Foreground="Black"/>
         					</StackPanel>
-        					<toolkit:HubTile Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Background="#FFE21A1A"/>
-        					<StackPanel Grid.Column="1"  Orientation="Vertical" Grid.Row="4" d:LayoutOverrides="Height" VerticalAlignment="Center">
-        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Jobs" VerticalAlignment="Center">
+        					<StackPanel Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True" Orientation="Vertical" Grid.Row="4" d:LayoutOverrides="Height" VerticalAlignment="Center" Tap="Hubtile_property_rent_Tap">
+        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Property for Rent" VerticalAlignment="Center">
         							<TextBlock.Foreground>
         								<SolidColorBrush Color="{StaticResource ZunePink}"/>
         							</TextBlock.Foreground>
         						</TextBlock>
-        						<TextBlock TextWrapping="Wrap" Text="Kick recession in the ass." Foreground="Black"/>
+        						<TextBlock TextWrapping="Wrap" Text="Need a place to live ? find the right price." Foreground="Black"/>
         					</StackPanel>
 
         				</Grid>
         			</ScrollViewer>
         		</controls:PanoramaItem>
-        		<controls:PanoramaItem Header="Your Stuff" Style="{StaticResource PanoramaItemHeaderStyle}">
-        			<Grid toolkit:TiltEffect.IsTiltEnabled="True">
+        		<!--<controls:PanoramaItem Header="Your Stuff" Style="{StaticResource PanoramaItemHeaderStyle}">
+                    <Grid>
         				<StackPanel Orientation="Vertical" VerticalAlignment="Top">
-        					<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="420" Tap="StackPanel_Tap" toolkit:TiltEffect.IsTiltEnabled="True" >
-        						<toolkit:HubTile x:Name="HubTile_PlaceNewAdd" d:LayoutOverrides="Height" Background="#FFE21A1A" DisplayNotification="True" GroupTag="Tools" Source="Add_Tile.png" Notification="Advertise" />
+        					<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="420" >
+                                <Image Source="Add_Tile.png" />
         						<TextBlock TextWrapping="Wrap" Width="237" Margin="10,0,0,0" Text="Place an advertisement in a matter of minutes, using your phone's Camera and GPS sensor." Style="{StaticResource TextBlockStylePink}">
         							<TextBlock.Foreground>
         								<SolidColorBrush Color="{StaticResource ZunePink}"/>
@@ -267,29 +267,20 @@
         						</TextBlock>
         					</StackPanel>
         					<ListBox x:Name="ListBox_MyDeals" Height="100"/>
-        					<TextBlock TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Center"><Run Text="Coming Soon...">
-        							<Run.Foreground>
-        								<SolidColorBrush Color="#FFE21A1A">
-        									<SolidColorBrush.RelativeTransform>
-        										<MatrixTransform Matrix="Identity"/>
-        									</SolidColorBrush.RelativeTransform>
-        									<SolidColorBrush.Transform>
-        										<MatrixTransform Matrix="Identity"/>
-        									</SolidColorBrush.Transform>
-        								</SolidColorBrush>
-        							</Run.Foreground>
-        						</Run><LineBreak/><Run/></TextBlock>
         				</StackPanel>
-        			</Grid>
-        		</controls:PanoramaItem>
-        		<controls:PanoramaItem Header="Top Deals" Style="{StaticResource MainPagePanaromsStyle}">
+                        <Grid Background="Black" Opacity="0.8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,-100,0,50">
+                            <TextBlock Text="Coming Soon...." VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                        </Grid>
+                    </Grid>
+        		</controls:PanoramaItem>-->
+        		<!--<controls:PanoramaItem Header="Top Deals" Style="{StaticResource MainPagePanaromsStyle}">
         			<Grid>
         				<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Coming Soon..." VerticalAlignment="Center" Foreground="Red"/>
         			</Grid>
-        		</controls:PanoramaItem>
-        		<controls:PanoramaItem Header="Nearby Deals" Style="{StaticResource MainPagePanaromsStyle}">
+        		</controls:PanoramaItem>-->
+        		<!--<controls:PanoramaItem Header="Nearby Deals" Style="{StaticResource MainPagePanaromsStyle}">
         			<Grid>
-        				<Microsoft_Phone_Controls_Maps:Map x:Name="Map_NearbyDeals" CredentialsProvider="AgYsF_6EicI1Cot_qW3NfyPOLDFYTwTDAHoxPV4mS2b_rpZ9-yzFlVYfMWynUFsX" Margin="0" d:LayoutOverrides="Width" IsHitTestVisible="False" IsEnabled="False" toolkit:TiltEffect.IsTiltEnabled="True"/>
+                        <Microsoft_Phone_Controls_Maps:Map x:Name="Map_NearbyDeals" CredentialsProvider="Av3Z5IUHc7RMtwCQtJJfmFTWSVApjPRk8xCBdaIESokLmQH8o2tb6zteV_hi4voQ" Margin="0" d:LayoutOverrides="Width" IsHitTestVisible="False" IsEnabled="False" />
         				<Grid VerticalAlignment="Bottom" Background="#CC000000">
         					<StackPanel Margin="20,20,151,20" d:LayoutOverrides="Width" IsHitTestVisible="False">
         						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Displaying all the deals nearby" d:LayoutOverrides="Height" Margin="0" FontSize="20">
@@ -301,10 +292,34 @@
         					</StackPanel>
         				</Grid>
         			</Grid>
-        		</controls:PanoramaItem>
+        		</controls:PanoramaItem>-->
         		<controls:PanoramaItem Header="Favorites" Style="{StaticResource MainPagePanaromsStyle}">
-        			<Grid/>
-        		</controls:PanoramaItem>
+                    <Grid>
+                        <ListBox x:Name="ListBox_Favorites">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Width="400" VerticalAlignment="Bottom" Background="#AA000000" Tap="Grid_Tap" Margin="5" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid  Background="#AA000000" Height="68" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+                                                <TextBlock Text="{Binding Price}" Foreground="Red" Margin="23,0,0,0" FontSize="42" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Background="#AA000000" Grid.Row="1">
+                                            <TextBlock Text="{Binding Title}"  TextWrapping="Wrap" Foreground="White"  Margin="23"/>
+                                        </Grid>
+                                        <Image Source="icons/delete.png" Stretch="Fill" Width="64" Height="64" Margin="0,10,-10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Tap="Image_Tap"/>
+
+                                    </Grid>
+
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </controls:PanoramaItem>
         	</controls:Panorama>
         </Grid>
         <Canvas x:Name="canvas" Grid.Row="1" d:IsHidden="True" d:IsLocked="True">
@@ -330,11 +345,6 @@
         		</Image.RenderTransform>
         	</Image>
         </Canvas>
-        <Grid x:Name="LoadingAnimationPanel" Grid.Row="1" d:IsHidden="True" Visibility="Collapsed" d:IsLocked="True">
-        	<Grid.Background>
-        		<ImageBrush Stretch="None" ImageSource="/SplashScreenImage.jpg"/>
-        	</Grid.Background>
-        </Grid>
     </Grid>
 
 </phone:PhoneApplicationPage>

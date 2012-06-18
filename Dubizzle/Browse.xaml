@@ -13,57 +13,9 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
     <phone:PhoneApplicationPage.Resources>
-        <local:NullToVisibilityConverter x:Key="ntvc"/>
-        <Style TargetType="ScrollViewer">
-            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ScrollViewer">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="ScrollStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="00:00:00.5"/>
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState x:Name="Scrolling">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="VerticalScrollBar" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
-                                            <DoubleAnimation Storyboard.TargetName="HorizontalScrollBar" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="NotScrolling">
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="VerticalCompression">
-                                    <VisualState x:Name="NoVerticalCompression"/>
-                                    <VisualState x:Name="CompressionTop"/>
-                                    <VisualState x:Name="CompressionBottom"/>
-                                </VisualStateGroup>
-                                <!--Horizontal Compression Visual States-->
-                                <!--<VisualStateGroup x:Name="HorizontalCompression">
-                                    <VisualState x:Name="NoHorizontalCompression"/>
-                                    <VisualState x:Name="CompressionLeft"/>
-                                    <VisualState x:Name="CompressionRight"/>
-                                </VisualStateGroup>-->
-                            </VisualStateManager.VisualStateGroups>
-                            <Grid Margin="{TemplateBinding Padding}">
-                                <ScrollContentPresenter x:Name="ScrollContentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-                                <ScrollBar x:Name="VerticalScrollBar" IsHitTestVisible="False" Height="Auto" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" IsTabStop="False" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Value="{TemplateBinding VerticalOffset}" Orientation="Vertical" ViewportSize="{TemplateBinding ViewportHeight}" />
-                                <ScrollBar x:Name="HorizontalScrollBar" IsHitTestVisible="False" Width="Auto" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" IsTabStop="False" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Value="{TemplateBinding HorizontalOffset}" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" />
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
 
     </phone:PhoneApplicationPage.Resources>
@@ -93,10 +45,10 @@
         		</controls:PivotItem> -->
         		<controls:PivotItem x:Name="PivotItem_Level1" Header="Category">
         			<Grid>
-        				<ListBox x:Name="ListBox_Level1" SelectionChanged="ListBox_Level1_SelectionChanged">
+        				<ListBox x:Name="ListBox_Level1" SelectionChanged="ListBox_Level1_SelectionChanged" toolkit:TiltEffect.IsTiltEnabled="True">
         					<ListBox.ItemTemplate>
         						<DataTemplate>
-        							<TextBlock Text="{Binding Title}" Foreground="Black" FontSize="32"/>						
+        							<TextBlock Text="{Binding Title}" Margin="5" Foreground="Black" FontSize="32"/>						
 								</DataTemplate> 					
 							</ListBox.ItemTemplate>  				
 						</ListBox>
@@ -104,10 +56,10 @@
         		</controls:PivotItem>
         		<controls:PivotItem x:Name="PivotItem_Level2" Header="Sub Cat" Visibility="Collapsed">
         			<Grid>
-        				<ListBox x:Name="ListBox_Level2" SelectionChanged="ListBox_Level2_SelectionChanged">
+        				<ListBox x:Name="ListBox_Level2" SelectionChanged="ListBox_Level2_SelectionChanged" toolkit:TiltEffect.IsTiltEnabled="True">
         					<ListBox.ItemTemplate>
 								<DataTemplate>
-	        						<TextBlock Text="{Binding Title}" Foreground="Black" FontSize="32"/> 					
+	        						<TextBlock Text="{Binding Title}" Margin="5" Foreground="Black" FontSize="32"/> 					
 								</DataTemplate>  		
 							</ListBox.ItemTemplate>		
 						</ListBox>
@@ -115,12 +67,12 @@
         		</controls:PivotItem>
         		<controls:PivotItem x:Name="PivotItem_Level3" Header="Results" Visibility="Collapsed">
         			<Grid>
-                        <ListBox Background="{x:Null}" x:Name="ListBox_Level3" SelectionChanged="ListBox_Level3_SelectionChanged"    >
+                        <ListBox Background="{x:Null}" x:Name="ListBox_Level3" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionChanged="ListBox_Level3_SelectionChanged" ScrollViewer.ManipulationMode="System">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="23">
                                         <Grid>
-                                            <Grid Width="400" VerticalAlignment="Bottom" Background="#AA000000"  >
+                                            <Grid Width="400" VerticalAlignment="Bottom" Background="#AA000000" Tap="Grid_Tap" >
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition />
                                                     <RowDefinition />
@@ -148,18 +100,21 @@
         		</controls:PivotItem>
         	</controls:Pivot>
 </Grid>
+        <Grid x:Name="Grid_Refine" Grid.Row="1" Margin="8,0" Background="#E6000000" Visibility="Collapsed">
+        	<StackPanel HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Top">
+        		<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="White" Text="Refine your results" FontSize="48" Margin="23"/>
+        		<Grid x:Name="Grid_RefiningOptions" Width="436">
+        			<StackPanel x:Name="StackPanel_RefiningOptions" VerticalAlignment="Top" Width="436"/>
+        		</Grid>
+        	</StackPanel>
+        </Grid>
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
+    <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton x:Name="ApplicationBarIconButton_search" IconUri="/icons/filter.png" Text="filter" Click="ApplicationBarIconButton_search_Click"/>
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
