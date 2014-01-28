@@ -19,6 +19,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO.IsolatedStorage;
+using System.Net.NetworkInformation;
 
 namespace Dubizzle
 {
@@ -121,13 +122,15 @@ namespace Dubizzle
 
         private void Button_Search_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-        	// TODO: Add event handler implementation here.
-            if (Level <= 1)
+            if (NetworkInterface.GetIsNetworkAvailable())
             {
-                MessageBox.Show("Search requires for you to select a category and a subcategory");
-                return;
-            }
-            currentpage = 1;
+                // TODO: Add event handler implementation here.
+                if (Level <= 1)
+                {
+                    MessageBox.Show("Search requires for you to select a category and a subcategory");
+                    return;
+                }
+                currentpage = 1;
                 string filterkeyvals = "";
                 foreach (var foo in FilterOptions)
                 {
@@ -135,11 +138,15 @@ namespace Dubizzle
                 }
                 string morefilteroptions = filteroptionsfromPanel(StackPanel_MoreOptions);
 
-            currentresultsuri = string.Format("http://dubai.dubizzle.com/m/search/js/?is_basic_search_widget=0&s={1}&site=2&keywords={0}&is_search=1{2}&{3}", EDAdvancedTextbox_SearhQuery.Text,category,filterkeyvals,morefilteroptions);
-            HttpWebRequest req2 = HttpWebRequest.Create(new Uri(currentresultsuri)) as HttpWebRequest;
-            req2.BeginGetResponse(new AsyncCallback(req3ResponseHandler), req2);
-            prog.IsVisible = true;
-
+                currentresultsuri = string.Format("http://dubai.dubizzle.com/m/search/js/?is_basic_search_widget=0&s={1}&site=2&keywords={0}&is_search=1{2}&{3}", EDAdvancedTextbox_SearhQuery.Text, category, filterkeyvals, morefilteroptions);
+                HttpWebRequest req2 = HttpWebRequest.Create(new Uri(currentresultsuri)) as HttpWebRequest;
+                req2.BeginGetResponse(new AsyncCallback(req3ResponseHandler), req2);
+                prog.IsVisible = true;
+            }
+            else
+            {
+                MessageBox.Show("Could not connect to the server , please check your internet connection and try again");
+            }
 			
         }
         private string filteroptionsfromPanel(UIElement control)
@@ -243,7 +250,7 @@ namespace Dubizzle
                 currentpage++;
                 isdownloadingdata = false;
 
-            }catch(WebException)
+            }catch(Exception)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {

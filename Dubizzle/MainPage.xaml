@@ -258,7 +258,7 @@
         		<!--<controls:PanoramaItem Header="Your Stuff" Style="{StaticResource PanoramaItemHeaderStyle}">
                     <Grid>
         				<StackPanel Orientation="Vertical" VerticalAlignment="Top">
-        					<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="420" >
+        					<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="420" Tap="StackPanel_Tap" >
                                 <Image Source="Add_Tile.png" />
         						<TextBlock TextWrapping="Wrap" Width="237" Margin="10,0,0,0" Text="Place an advertisement in a matter of minutes, using your phone's Camera and GPS sensor." Style="{StaticResource TextBlockStylePink}">
         							<TextBlock.Foreground>
@@ -268,9 +268,6 @@
         					</StackPanel>
         					<ListBox x:Name="ListBox_MyDeals" Height="100"/>
         				</StackPanel>
-                        <Grid Background="Black" Opacity="0.8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,-100,0,50">
-                            <TextBlock Text="Coming Soon...." VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
-                        </Grid>
                     </Grid>
         		</controls:PanoramaItem>-->
         		<!--<controls:PanoramaItem Header="Top Deals" Style="{StaticResource MainPagePanaromsStyle}">

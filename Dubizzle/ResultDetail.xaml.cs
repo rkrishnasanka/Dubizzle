@@ -16,6 +16,7 @@ using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using Microsoft.Phone.Controls.Maps;
 using Microsoft.Phone.Tasks;
+using System.Net.NetworkInformation;
 
 namespace Dubizzle
 {
@@ -47,94 +48,109 @@ namespace Dubizzle
             
             base.OnNavigatedTo(e);
             resultlocation = this.NavigationContext.QueryString["x"];
-
-            HttpWebRequest req = HttpWebRequest.Create(new Uri(baseuri + resultlocation)) as HttpWebRequest;
-            req.BeginGetResponse(new AsyncCallback(reqResponseHandler), req);
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                HttpWebRequest req = HttpWebRequest.Create(new Uri(baseuri + resultlocation)) as HttpWebRequest;
+                req.BeginGetResponse(new AsyncCallback(reqResponseHandler), req);
+            }
+            else
+            {
+                MessageBox.Show("Could not connect to the server , please check your internet connection and try again");
+            }
 
         }
 
         public void reqResponseHandler(IAsyncResult e)
         {
-            
-            HttpWebRequest req = e.AsyncState as HttpWebRequest;
-            HttpWebResponse res = req.EndGetResponse(e) as HttpWebResponse;
-            if (res.StatusCode != HttpStatusCode.OK)
-            {
-                MessageBox.Show("Error - Could not connect to server");
-                return;
-            }
-            HtmlDocument doc = new HtmlDocument();
-            string html = new StreamReader(res.GetResponseStream()).ReadToEnd();
-            doc.LoadHtml(html);
-
-            ///Parsing the title
             try
             {
-                var x = (doc.DocumentNode.SelectSingleNode(".//span[@class='details-title ']").InnerHtml);
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                HttpWebRequest req = e.AsyncState as HttpWebRequest;
+                HttpWebResponse res = req.EndGetResponse(e) as HttpWebResponse;
+                if (res.StatusCode != HttpStatusCode.OK)
                 {
-                    data.Title = x;
-                });
-            }
-            catch (NullReferenceException) { }
-            //foo.Description = 
-            ///Parsing the Location
-            var temp = doc.DocumentNode.SelectSingleNode(".//a[@id='view-map']").Attributes["href"].Value;
-            if (temp != "")
-            {
-                var temp2 = (temp.Substring(/*temp.IndexOf("?q=", 0, 1) + 3)*/26).Split(','));
-                if (!(temp2[0] == "" || temp2[1] == ""))
-                {
-                    var y = double.Parse(temp2[0]);
-                    var z = double.Parse(temp2[1]);
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        //data.Latitude = y;
-                        //data.Longitude = z;
-                        data.CustLocation.Latitude = y;
-                        data.CustLocation.Longitude = z;
-                        p.Location = data.CustLocation;
-                        Map_CustomerLocation.Center = data.CustLocation;
-
-                        if ((y == 0.0 && z== 0.0))
-                        {
-                            p.Visibility = Visibility.Collapsed;
-                            TextBlock_islocationspecified.Visibility = Visibility.Visible;
-                        }
-                    });
-
+                    MessageBox.Show("Error - Could not connect to server");
+                    return;
                 }
+                HtmlDocument doc = new HtmlDocument();
+                string html = new StreamReader(res.GetResponseStream()).ReadToEnd();
+                doc.LoadHtml(html);
 
-            }
-            ///Parsing Location Text
-            temp =HttpUtility.HtmlDecode((doc.DocumentNode.SelectSingleNode(".//span[@id='location-text']")).InnerText);
-            temp = temp.Replace("\n", "");
-            temp = temp.Replace("   ", "  ");
-            temp = temp.Replace("  ", " ");
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    data.LocationText = temp;
-                });
-            ///Parsing the details table
-            HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes(".//div[@id='details-table']//ul//li");
-            var w = new Dictionary<string, string>();
-
-            foreach (HtmlNode node in nodes)
-            {
+                ///Parsing the title
                 try
                 {
-                    w.Add(HttpUtility.HtmlDecode(node.SelectSingleNode(".//strong").InnerText), HttpUtility.HtmlDecode(node.SelectSingleNode(".//span").InnerText));
+                    var x = (doc.DocumentNode.SelectSingleNode(".//span[@class='details-title ']").InnerHtml);
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        data.Title = x;
+                    });
                 }
                 catch (NullReferenceException) { }
+                //foo.Description = 
+                ///Parsing the Location
+                var temp = doc.DocumentNode.SelectSingleNode(".//a[@id='view-map']").Attributes["href"].Value;
+                if (temp != "")
+                {
+                    var temp2 = (temp.Substring(/*temp.IndexOf("?q=", 0, 1) + 3)*/26).Split(','));
+                    if (!(temp2[0] == "" || temp2[1] == ""))
+                    {
+                        var y = double.Parse(temp2[0]);
+                        var z = double.Parse(temp2[1]);
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            //data.Latitude = y;
+                            //data.Longitude = z;
+                            data.CustLocation.Latitude = y;
+                            data.CustLocation.Longitude = z;
+                            p.Location = data.CustLocation;
+                            Map_CustomerLocation.Center = data.CustLocation;
+
+                            if ((y == 0.0 && z == 0.0))
+                            {
+                                p.Visibility = Visibility.Collapsed;
+                                TextBlock_islocationspecified.Visibility = Visibility.Visible;
+                            }
+                        });
+
+                    }
+
+                }
+                ///Parsing Location Text
+                temp = HttpUtility.HtmlDecode((doc.DocumentNode.SelectSingleNode(".//span[@id='location-text']")).InnerText);
+                temp = temp.Replace("\n", "");
+                temp = temp.Replace("   ", "  ");
+                temp = temp.Replace("  ", " ");
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        data.LocationText = temp;
+                    });
+                ///Parsing the details table
+                HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes(".//div[@id='details-table']//ul//li");
+                var w = new Dictionary<string, string>();
+
+                foreach (HtmlNode node in nodes)
+                {
+                    try
+                    {
+                        w.Add(HttpUtility.HtmlDecode(node.SelectSingleNode(".//strong").InnerText), HttpUtility.HtmlDecode(node.SelectSingleNode(".//span").InnerText));
+                    }
+                    catch (NullReferenceException) { }
+                }
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    data.Details = w;
+                });
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    prog.IsVisible = false;
+                });
             }
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            catch (Exception)
             {
-                data.Details = w;
-            });
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                prog.IsVisible = false;
-            });
+                Dispatcher.BeginInvoke(() =>
+                {
+                    MessageBox.Show("Could not connect to the server , please check your internet connection and try again");
+                });
+            }
         }
 
         private void ListBox_Details_SelectionChanged(object sender, SelectionChangedEventArgs e)
